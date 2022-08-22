@@ -30,9 +30,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model=UserProfile
         fields="__all__"
 
-    # def create(self, validated_data):
-    #     user=self.context.get("user")
-    #     return UserProfile.objects.create(**validated_data,user=user)
+
 
 
 

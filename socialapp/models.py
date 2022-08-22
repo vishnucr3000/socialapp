@@ -15,6 +15,7 @@ class UserProfile(models.Model):
         ("Female","Female")
     )
     gender=models.CharField(max_length=6,choices=options,default="male")
+    followers=models.ManyToManyField(User,related_name="followers")
 
 class Posts(models.Model):
     title=models.CharField(max_length=50)
@@ -37,5 +38,7 @@ class Comments(models.Model):
 
     def __str__(self):
         return self.comment
+
+
 
 

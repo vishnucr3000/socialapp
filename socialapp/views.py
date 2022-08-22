@@ -16,6 +16,8 @@ class UserView(ModelViewSet):
 
 
 
+
+
 class UserProfileView(ModelViewSet):
     serializer_class = UserProfileSerializer
     queryset = UserProfile.objects.all()
@@ -24,6 +26,16 @@ class UserProfileView(ModelViewSet):
     def perform_create(self, serializer):
 
         serializer.save(user=self.request.user)
+
+    @action(methods=["post"],detail=True)
+    def follow(self,request,*args,**kwargs):
+        id=kwargs.get("pk")
+        user=User.objects.get(id=id)
+        profile=UserProfile.objects.get(user=user)
+        profile.followers.add(request.user)
+        return Response({"msg":"You are following "+str(user.first_name)})
+
+
 
 
 
