@@ -31,9 +31,22 @@ class UserProfileView(ModelViewSet):
     def follow(self,request,*args,**kwargs):
         id=kwargs.get("pk")
         user=User.objects.get(id=id)
-        profile=UserProfile.objects.get(user=user)
-        profile.followers.add(request.user)
+        profile=UserProfile.objects.get(user=request.user)
+        profile.followers.add(user)
         return Response({"msg":"You are following "+str(user.first_name)})
+
+    @action(methods=["get"],detail=False)
+    def get_followings(self,request,*args,**kwargs):
+        user=request.user
+        followings=user.followers.all()
+        serializer=UserProfileSerializer(followings,many=True)
+        return Response(data=serializer.data)
+
+    @action(methods=["get"],detail=False)
+    def get_suggestions(self,request,*args,**kwargs):
+        suggetions=User.objects.exclude(id=request.user.id)
+        serializer=UserSerializer(suggetions,many=True)
+        return Response(data=serializer.data)
 
 
 

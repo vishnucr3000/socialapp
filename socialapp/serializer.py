@@ -24,6 +24,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserProfileSerializer(serializers.ModelSerializer):
 
+    followers=UserSerializer(many=True,read_only=True)
     user=serializers.CharField(read_only=True)
 
     class Meta:
